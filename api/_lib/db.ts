@@ -43,21 +43,28 @@ function createPgPool(): pg.Pool | null {
     !isPlaceholder(databaseUrl) &&
     (databaseUrl.startsWith('postgres://') || databaseUrl.startsWith('postgresql://'))
   ) {
-    const needsSsl =
-      sslMode === 'require' ||
-      databaseUrl.includes('sslmode=require') ||
-      databaseUrl.includes('neon.tech') ||
-      databaseUrl.includes('supabase.co') ||
-      databaseUrl.includes('render.com') ||
-      databaseUrl.includes('aivencloud.com');
+    let hostname = 'unknown';
+    let isLocalhost = false;
+    try {
+      hostname = new URL(databaseUrl).hostname;
+      isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+    } catch {
+      // malformed URL — treat as remote
+    }
+
+    // Always use SSL for remote hosts — rejectUnauthorized:false handles
+    // self-signed certs common in managed PG providers (Neon, Supabase, Aiven, etc.)
+    const sslConfig = isLocalhost
+      ? undefined
+      : { rejectUnauthorized: false };
 
     console.log(
-      `[DB] Connecting via DATABASE_URL (ssl=${needsSsl}, host=${new URL(databaseUrl).hostname})`
+      `[DB] Connecting via DATABASE_URL (host=${hostname}, ssl=${!isLocalhost})`
     );
 
     return new Pool({
       connectionString: databaseUrl,
-      ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
+      ssl: sslConfig,
       max: 5,
       idleTimeoutMillis: 20000,
       connectionTimeoutMillis: 5000,
@@ -66,9 +73,13 @@ function createPgPool(): pg.Pool | null {
 
   // --- Option 2: Individual PG* env vars ---
   if (pgHost && !isPlaceholder(pgHost)) {
+    const isLocalhost = pgHost === 'localhost' || pgHost === '127.0.0.1' || pgHost === '::1';
+    const sslConfig = isLocalhost
+      ? undefined
+      : { rejectUnauthorized: false };
     const port = Number(process.env.PGPORT || 5432);
     console.log(
-      `[DB] Connecting via PGHOST=${pgHost}, PGDATABASE=${process.env.PGDATABASE ?? 'satosphere'}`
+      `[DB] Connecting via PGHOST=${pgHost}, PGDATABASE=${process.env.PGDATABASE ?? 'satosphere'}, ssl=${!isLocalhost}`
     );
     return new Pool({
       host: pgHost,
@@ -76,7 +87,7 @@ function createPgPool(): pg.Pool | null {
       database: process.env.PGDATABASE?.trim() || 'satosphere',
       user: process.env.PGUSER?.trim() || 'postgres',
       password: process.env.PGPASSWORD ?? '',
-      ssl: sslMode === 'require' ? { rejectUnauthorized: false } : undefined,
+      ssl: sslConfig,
       max: 5,
       idleTimeoutMillis: 20000,
       connectionTimeoutMillis: 5000,
