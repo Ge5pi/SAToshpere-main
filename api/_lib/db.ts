@@ -27,33 +27,84 @@ export interface StoredLeadRow {
   updatedAtMillis: number;
 }
 
-function createPgPool(): pg.Pool {
+function isPlaceholder(val: string): boolean {
+  const trimmed = val.trim();
+  return !trimmed || trimmed === 'MY_DATABASE_URL' || trimmed.startsWith('CHANGE_ME');
+}
+
+function createPgPool(): pg.Pool | null {
   const databaseUrl = process.env.DATABASE_URL?.trim() ?? '';
+  const pgHost = process.env.PGHOST?.trim() ?? '';
   const sslMode = (process.env.PGSSLMODE ?? '').trim().toLowerCase();
 
-  const needsSsl =
-    sslMode === 'require' ||
-    databaseUrl.includes('sslmode=require') ||
-    databaseUrl.includes('neon.tech') ||
-    databaseUrl.includes('supabase.co') ||
-    databaseUrl.includes('render.com') ||
-    databaseUrl.includes('aivencloud.com');
+  // --- Option 1: Full connection string ---
+  if (
+    databaseUrl &&
+    !isPlaceholder(databaseUrl) &&
+    (databaseUrl.startsWith('postgres://') || databaseUrl.startsWith('postgresql://'))
+  ) {
+    const needsSsl =
+      sslMode === 'require' ||
+      databaseUrl.includes('sslmode=require') ||
+      databaseUrl.includes('neon.tech') ||
+      databaseUrl.includes('supabase.co') ||
+      databaseUrl.includes('render.com') ||
+      databaseUrl.includes('aivencloud.com');
 
-  return new Pool({
-    connectionString: databaseUrl,
-    ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
-    max: 5,
-    idleTimeoutMillis: 20000,
-    connectionTimeoutMillis: 5000,
-  });
+    console.log(
+      `[DB] Connecting via DATABASE_URL (ssl=${needsSsl}, host=${new URL(databaseUrl).hostname})`
+    );
+
+    return new Pool({
+      connectionString: databaseUrl,
+      ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
+      max: 5,
+      idleTimeoutMillis: 20000,
+      connectionTimeoutMillis: 5000,
+    });
+  }
+
+  // --- Option 2: Individual PG* env vars ---
+  if (pgHost && !isPlaceholder(pgHost)) {
+    const port = Number(process.env.PGPORT || 5432);
+    console.log(
+      `[DB] Connecting via PGHOST=${pgHost}, PGDATABASE=${process.env.PGDATABASE ?? 'satosphere'}`
+    );
+    return new Pool({
+      host: pgHost,
+      port: Number.isFinite(port) ? port : 5432,
+      database: process.env.PGDATABASE?.trim() || 'satosphere',
+      user: process.env.PGUSER?.trim() || 'postgres',
+      password: process.env.PGPASSWORD ?? '',
+      ssl: sslMode === 'require' ? { rejectUnauthorized: false } : undefined,
+      max: 5,
+      idleTimeoutMillis: 20000,
+      connectionTimeoutMillis: 5000,
+    });
+  }
+
+  // --- Not configured ---
+  console.warn(
+    '[DB] WARNING: DATABASE_URL and PGHOST are not set or contain placeholder values. ' +
+    'Database operations will fail. Set DATABASE_URL in Vercel Environment Variables.'
+  );
+  return null;
 }
 
 // Singleton pool reused across warm function invocations
 let _pool: pg.Pool | null = null;
+let _poolInitialized = false;
 
 export function getPool(): pg.Pool {
-  if (!_pool) {
+  if (!_poolInitialized) {
     _pool = createPgPool();
+    _poolInitialized = true;
+  }
+  if (!_pool) {
+    throw new Error(
+      'Database not configured: DATABASE_URL or PGHOST environment variable is missing. ' +
+      'Set DATABASE_URL in your Vercel project settings under Settings → Environment Variables.'
+    );
   }
   return _pool;
 }
