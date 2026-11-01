@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { VercelRequest, VercelResponse } from '../_lib/types.js';
 import { verifyAdminToken } from '../_lib/auth.js';
 
 export default function handler(req: VercelRequest, res: VercelResponse): void {

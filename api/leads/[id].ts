@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { VercelRequest, VercelResponse } from '../_lib/types.js';
 import { getPool, mapPgRowToLead } from '../_lib/db.js';
 import { verifyAdminToken } from '../_lib/auth.js';
 import { cleanText, VALID_STATUSES, ID_REGEX } from '../_lib/validators.js';
