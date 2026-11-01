@@ -43,27 +43,40 @@ function createPgPool(): pg.Pool | null {
     !isPlaceholder(databaseUrl) &&
     (databaseUrl.startsWith('postgres://') || databaseUrl.startsWith('postgresql://'))
   ) {
-    let hostname = 'unknown';
-    let isLocalhost = false;
+    // Parse URL manually instead of passing connectionString — this prevents
+    // pg-connection-string from overriding our ssl config with sslmode from the URL.
+    // (sslmode=require/prefer in the URL sets rejectUnauthorized:true, defeating our fix)
+    let parsed = { host: '', port: 5432, database: '', user: '', password: '', isLocalhost: false };
     try {
-      hostname = new URL(databaseUrl).hostname;
-      isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
-    } catch {
-      // malformed URL — treat as remote
+      const u = new URL(databaseUrl);
+      parsed.host = u.hostname;
+      parsed.port = u.port ? parseInt(u.port, 10) : 5432;
+      parsed.database = u.pathname.replace(/^\//, '');
+      parsed.user = decodeURIComponent(u.username);
+      parsed.password = decodeURIComponent(u.password);
+      parsed.isLocalhost =
+        u.hostname === 'localhost' || u.hostname === '127.0.0.1' || u.hostname === '::1';
+    } catch (parseErr) {
+      console.error('[DB] Failed to parse DATABASE_URL:', parseErr);
+      // Fall back to connectionString if URL parsing fails
+      return new Pool({ connectionString: databaseUrl, ssl: { rejectUnauthorized: false }, max: 5 });
     }
 
-    // Always use SSL for remote hosts — rejectUnauthorized:false handles
-    // self-signed certs common in managed PG providers (Neon, Supabase, Aiven, etc.)
-    const sslConfig = isLocalhost
-      ? undefined
-      : { rejectUnauthorized: false };
+    // Always enable SSL with rejectUnauthorized:false for remote hosts.
+    // We pass ssl as a separate object (NOT via connectionString) so pg-connection-string
+    // cannot override it with the URL's sslmode param.
+    const sslConfig = parsed.isLocalhost ? undefined : { rejectUnauthorized: false };
 
     console.log(
-      `[DB] Connecting via DATABASE_URL (host=${hostname}, ssl=${!isLocalhost})`
+      `[DB] Connecting via parsed DATABASE_URL (host=${parsed.host}, port=${parsed.port}, db=${parsed.database}, ssl=${!parsed.isLocalhost})`
     );
 
     return new Pool({
-      connectionString: databaseUrl,
+      host: parsed.host,
+      port: parsed.port,
+      database: parsed.database,
+      user: parsed.user,
+      password: parsed.password,
       ssl: sslConfig,
       max: 5,
       idleTimeoutMillis: 20000,
