@@ -1,0 +1,6 @@
+{
+  "name": "QazaqSAT — Курсы Digital SAT в Казахстане за 3 месяца",
+  "description": "Подготовка к Digital SAT для 9–11 классов в Казахстане за 3 месяца. Выход на 1450–1550+ для грантов NU и США. Запишитесь на бесплатную диагностику SAT!",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
