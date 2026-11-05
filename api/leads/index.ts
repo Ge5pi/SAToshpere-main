@@ -79,6 +79,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       const utmSource = cleanText(req.body?.utmSource, 64) || 'direct';
       const utmMedium = cleanText(req.body?.utmMedium, 64) || 'none';
       const utmCampaign = cleanText(req.body?.utmCampaign, 96) || 'satosphere_landing';
+      const promoCodeRaw = cleanText(req.body?.promoCode, 32);
+      const promoCode = /^[A-Z0-9_-]{2,32}$/.test(promoCodeRaw) ? promoCodeRaw : '';
+      const promoNote = promoCode ? `Промо ${promoCode} · −15% + гайд` : '';
 
       // --- Database write ---
       console.log(`${tag} Acquiring DB pool...`);
@@ -89,9 +92,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
         `INSERT INTO leads (
           id, student_name, phone, grade, selected_plan, payment_mode,
           locale, status, notes, utm_source, utm_medium, utm_campaign
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, 'new', '', $8, $9, $10)
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, 'new', $8, $9, $10, $11)
         RETURNING *`,
-        [id, studentName, phone, grade, selectedPlan, paymentMode, locale, utmSource, utmMedium, utmCampaign]
+        [id, studentName, phone, grade, selectedPlan, paymentMode, locale, promoNote, utmSource, utmMedium, utmCampaign]
       );
 
       console.log(`${tag} INSERT OK — lead id="${id}" created`);

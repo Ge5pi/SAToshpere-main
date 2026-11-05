@@ -89,6 +89,7 @@ export function sanitizeLeadCreateInput(params: {
   paymentMode: PaymentMode;
   locale: Locale;
   utm: UtmParams;
+  promoCode?: string;
 }) {
   const cleanName = sanitizeText(params.studentName, LEAD_CONSTRAINTS.NAME_MAX);
   const cleanPhone = normalizeKzPhone(params.phone);
@@ -125,6 +126,7 @@ export function sanitizeLeadCreateInput(params: {
       params.utm.utmCampaign || 'satosphere_landing',
       LEAD_CONSTRAINTS.UTM_CAMPAIGN_MAX
     ),
+    promoCode: sanitizeText(params.promoCode || '', 32),
   };
 }
 

@@ -33,6 +33,7 @@ export async function createLeadRequest(payload: {
   utmSource: string;
   utmMedium: string;
   utmCampaign: string;
+  promoCode?: string;
 }): Promise<LeadRecord> {
   const res = await fetch('/api/leads', {
     method: 'POST',

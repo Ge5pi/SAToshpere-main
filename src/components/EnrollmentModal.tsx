@@ -13,6 +13,7 @@ interface EnrollmentModalProps {
   utm: UtmParams;
   selectedPlan: PlanId;
   paymentMode: PaymentMode;
+  promo?: { active: boolean; code: string; note: string };
 }
 
 export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
@@ -23,6 +24,7 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
   utm,
   selectedPlan,
   paymentMode,
+  promo,
 }) => {
   const [currentPlan, setCurrentPlan] = useState<PlanId>(selectedPlan);
 
@@ -94,6 +96,7 @@ export const EnrollmentModal: React.FC<EnrollmentModalProps> = ({
                 defaultPaymentMode={paymentMode}
                 showPlanSelector={true}
                 onPlanChange={setCurrentPlan}
+                promo={promo}
               />
             </div>
           </motion.div>

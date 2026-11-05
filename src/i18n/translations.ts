@@ -184,7 +184,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
       htmlLang: 'ru',
       title: 'SATosphere — Индивидуальная подготовка к Digital SAT в Казахстане',
       description:
-        'Индивидуальная подготовка 1-на-1 к Digital SAT для 9–11 классов в Казахстане. Курсы на 1 и 2 месяца до 1450–1550+ для грантов NU и США. Бесплатная диагностика!',
+        'Онлайн-подготовка к Digital SAT для 9–11 классов Казахстана. 5 лет практики, 800+ учеников, рост на 170–250 баллов. Бесплатная диагностика.',
     },
     nav: {
       brand: 'SATosphere',
@@ -195,7 +195,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
       cta: 'Бесплатная диагностика',
     },
     hero: {
-      regionalLine: 'Казахстан · Только индивидуально 1-на-1 · 9–11 классы · Алматы, Астана и онлайн',
+      regionalLine: 'Казахстан · Только онлайн 1-на-1 · 9–11 классы',
       headline: 'Индивидуальная подготовка 1-на-1 к Digital SAT до 1450–1550+ баллов',
       subheadline:
         'Никаких общих групп и потери времени на уже знакомые темы. Готовим школьников 9–11 классов Казахстана один на один с экспертом под гранты в Назарбаев Университет (NU), США, Европу и Азию. Начните с бесплатной диагностики уровня.',
@@ -228,57 +228,57 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
       ],
     },
     form: {
-      nameLabel: 'Имя ученика или родителя',
+      nameLabel: 'Имя',
       namePlaceholder: 'Например, Айгерим Сатпаева',
-      phoneLabel: 'Номер WhatsApp для связи',
+      phoneLabel: 'WhatsApp',
       phonePlaceholder: '+7 (701) 000-00-00',
-      gradeLabel: 'Класс обучения',
+      gradeLabel: 'Класс',
       gradeSuffix: 'класс',
-      planLabel: 'Формат индивидуальных занятий',
-      submitDiagnostic: 'Записаться на бесплатную диагностику',
-      submitCourse: 'Забронировать индивидуальный тариф',
+      planLabel: 'Формат',
+      submitDiagnostic: 'Записаться бесплатно',
+      submitCourse: 'Забронировать',
       submitting: 'Отправляем заявку...',
-      privacyNote: 'Контактные данные защищены и используются только для подбора удобного времени диагностики.',
-      errorName: 'Укажите имя (минимум 2 символа).',
-      errorPhone: 'Введите корректный казахстанский номер в формате +7 (7XX) XXX-XX-XX.',
-      errorNetwork: 'Не удалось отправить заявку. Проверьте интернет-соединение и попробуйте еще раз.',
+      privacyNote: 'Напишем в WhatsApp. Без звонков и спама.',
+      errorName: 'Укажите имя (мин. 2 символа).',
+      errorPhone: 'Введите номер в формате +7 (7XX) XXX-XX-XX.',
+      errorNetwork: 'Не удалось отправить. Попробуйте ещё раз.',
       successTitle: 'Заявка в SATosphere принята',
       successBody:
-        'Куратор SATosphere напишет вам в WhatsApp в течение 15 минут в рабочее время, согласует удобный слот для бесплатной индивидуальной диагностики и ответит на все вопросы по программе.',
+        'Куратор напишет в WhatsApp в течение 15 минут, согласует время и пришлёт гайд.',
       successReset: 'Отправить еще одну заявку',
       planNames: {
-        diagnostic: 'Бесплатная диагностика SAT 1-на-1 (0 ₸)',
-        per_lesson: 'Базовый тариф — Поурочно (10 000 ₸ / урок)',
-        course_1m: 'Курс 1 месяц — 12 уроков 1-на-1 (110 000 ₸)',
-        course_2m: 'Курс 2 месяца — 24 урока 1-на-1 (210 000 ₸)',
-        standard_group: 'Архивный тариф (Standard)',
-        intensive_pro: 'Архивный тариф (Intensive)',
-        individual_vip: 'Архивный тариф (VIP 1-на-1)',
+        diagnostic: 'Бесплатная диагностика',
+        per_lesson: 'Поурочно',
+        course_1m: 'Курс на 1 месяц',
+        course_2m: 'Курс на 2 месяца',
+        standard_group: 'Архивный тариф',
+        intensive_pro: 'Архивный тариф',
+        individual_vip: 'Архивный тариф',
       },
       planCardOptions: [
         {
           id: 'diagnostic',
-          title: 'Диагностика 1-на-1',
+          title: 'Диагностика',
           price: '0 ₸',
-          meta: '40 мин · Бесплатный разбор уровня',
+          meta: '40 мин · бесплатно',
         },
         {
           id: 'course_2m',
-          title: 'Курс на 2 месяца',
+          title: 'Курс 2 месяца',
           price: '210 000 ₸',
-          meta: '24 урока · Выгода 30 000 ₸',
+          meta: '24 урока · 5 симуляций',
         },
         {
           id: 'course_1m',
-          title: 'Курс на 1 месяц',
+          title: 'Курс 1 месяц',
           price: '110 000 ₸',
-          meta: '12 уроков · Выгода 10 000 ₸',
+          meta: '12 уроков · 2 симуляции',
         },
         {
           id: 'per_lesson',
-          title: 'Поурочно · Базовый',
+          title: 'Поурочно',
           price: '10 000 ₸',
-          meta: '1 урок · Гибкий график',
+          meta: '1 урок · 60 мин',
         },
       ],
     },
@@ -325,7 +325,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
           deliverables: [
             'Серия финальных прокторинговых симуляций в точном интерфейсе официального Bluebook',
             'Персональная тактика распределения времени на реальном экзамене',
-            'Помощь с регистрацией на Digital SAT (Алматы, Астана, Шымкент) и отправкой баллов в вузы',
+            'Помощь с регистрацией на Digital SAT и отправкой баллов в вузы',
           ],
         },
       ],
@@ -341,7 +341,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
       cases: [
         {
           name: 'Алихан Нурланов',
-          cityAndSchool: 'Алматы · РФМШ',
+          cityAndSchool: 'Онлайн · Казахстан',
           grade: '11 класс',
           scoreBefore: 1290,
           scoreAfter: 1540,
@@ -354,7 +354,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
         },
         {
           name: 'Дария Касымова',
-          cityAndSchool: 'Астана · НИШ IB',
+          cityAndSchool: 'Онлайн · Казахстан',
           grade: '11 класс',
           scoreBefore: 1360,
           scoreAfter: 1550,
@@ -367,7 +367,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
         },
         {
           name: 'Санжар Тлеуберген',
-          cityAndSchool: 'Шымкент · БИЛ',
+          cityAndSchool: 'Онлайн · Казахстан',
           grade: '10 класс',
           scoreBefore: 1210,
           scoreAfter: 1470,
@@ -611,7 +611,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
         {
           question: 'Как согласуется расписание индивидуальных уроков и можно ли переносить занятия?',
           answer:
-            'График составляется персонально под расписание школы, кружков и часовой пояс ученика в любом городе Казахстана (Алматы, Астана, Шымкент, Караганда, Атырау и др.). При предупреждении заранее индивидуальный урок бесплатно переносится на другой удобный день без сгорания.',
+            'График составляется персонально под расписание школы и кружков ученика. Занятия проходят только онлайн, поэтому можно заниматься из любого города Казахстана. При предупреждении заранее урок бесплатно переносится на другой день.',
         },
         {
           question: 'Какой уровень английского языка нужен для старта занятий?',
@@ -626,18 +626,18 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
     footer: {
       tagline:
         'Школа индивидуальной подготовки 1-на-1 старшеклассников 9–11 классов Казахстана к экзамену Digital SAT для поступления на гранты в NU, США, Европу и Азию.',
-      geography: 'Алматы · Астана · Шымкент · Онлайн 1-на-1 по всему Казахстану',
+      geography: 'Онлайн 1-на-1 по всему Казахстану',
       contactTitle: 'Связь с куратором SATosphere',
-      scheduleLine: 'Ежедневно с 09:00 до 21:00 (время Астаны, GMT+5)',
+      scheduleLine: 'Ежедневно с 09:00 до 21:00 (GMT+5)',
       navTitle: 'Навигация',
       adminButton: 'Кабинет куратора (CRM)',
       copyright:
         '© 2026 SATosphere. Все права защищены. SAT® является зарегистрированным товарным знаком College Board.',
     },
     modal: {
-      titleDiagnostic: 'Запись на бесплатную диагностику Digital SAT 1-на-1',
-      titleCourse: 'Бронирование индивидуального обучения в SATosphere',
-      selectedFormatPrefix: 'Выбранный тариф:',
+      titleDiagnostic: 'Бесплатная диагностика',
+      titleCourse: 'Бронирование курса',
+      selectedFormatPrefix: 'Тариф:',
       closeAria: 'Закрыть окно записи',
     },
     crm: {
@@ -696,7 +696,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
       htmlLang: 'kk',
       title: 'SATosphere — Қазақстанда Digital SAT емтиханына 1-де-1 жеке дайындық',
       description:
-        'Қазақстанның 9–11 сынып оқушыларына арналған 1-де-1 жеке Digital SAT дайындығы. 1 және 2 айлық курстармен 1450–1550+ ұпай. Тегін диагностикаға жазылыңыз!',
+        'Қазақстанның 9–11 сынып оқушыларына Digital SAT-қа онлайн дайындық. 5 жыл тәжірибе, 800+ оқушы, 170–250 ұпай өсім. Тегін диагностика.',
     },
     nav: {
       brand: 'SATosphere',
@@ -707,7 +707,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
       cta: 'Тегін диагностика',
     },
     hero: {
-      regionalLine: 'Қазақстан · Тек 1-де-1 жеке оқыту · 9–11 сыныптар · Алматы, Астана және онлайн',
+      regionalLine: 'Қазақстан · Тек онлайн 1-де-1 · 9–11 сыныптар',
       headline: 'Digital SAT емтиханына 1450–1550+ ұпайға дейін 1-де-1 жеке дайындық',
       subheadline:
         'Жалпы топтар мен таныс тақырыптарға уақыт жоғалту жоқ. Қазақстанның 9–11 сынып оқушыларын Назарбаев Университеті (NU), АҚШ, Еуропа және Азия гранттарына сарапшымен жеке дайындаймыз. Деңгейді анықтайтын тегін диагностикадан бастаңыз.',
@@ -740,57 +740,57 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
       ],
     },
     form: {
-      nameLabel: 'Оқушының немесе ата-ананың аты-жөні',
+      nameLabel: 'Аты',
       namePlaceholder: 'Мысалы, Әйгерім Сәтбаева',
-      phoneLabel: 'WhatsApp байланыс нөмірі',
+      phoneLabel: 'WhatsApp',
       phonePlaceholder: '+7 (701) 000-00-00',
-      gradeLabel: 'Оқу сыныбы',
+      gradeLabel: 'Сынып',
       gradeSuffix: 'сынып',
-      planLabel: 'Жеке оқу форматы',
-      submitDiagnostic: 'Тегін диагностикаға жазылу',
-      submitCourse: 'Жеке тарифті брондау',
+      planLabel: 'Формат',
+      submitDiagnostic: 'Тегін жазылу',
+      submitCourse: 'Брондау',
       submitting: 'Өтінім жіберілуде...',
-      privacyNote: 'Байланыс деректері қорғалған және тек ыңғайлы диагностика уақытын белгілеу үшін қолданылады.',
-      errorName: 'Аты-жөніңізді енгізіңіз (кемінде 2 таңба).',
-      errorPhone: 'Қазақстандық нөмірді +7 (7XX) XXX-XX-XX форматында дұрыс енгізіңіз.',
-      errorNetwork: 'Өтінімді жіберу мүмкін болмады. Интернет байланысын тексеріп, қайта көріңіз.',
+      privacyNote: 'WhatsApp-қа жазамыз. Қоңырау мен спам жоқ.',
+      errorName: 'Атыңызды енгізіңіз (кемінде 2 таңба).',
+      errorPhone: 'Нөмірді +7 (7XX) XXX-XX-XX форматында енгізіңіз.',
+      errorNetwork: 'Жіберу мүмкін болмады. Қайта көріңіз.',
       successTitle: 'SATosphere өтініміңіз қабылданды',
       successBody:
-        'SATosphere кураторы жұмыс уақытында 15 минут ішінде WhatsApp арқылы хабарласып, тегін жеке диагностика уақытын келіседі және бағдарлама бойынша сұрақтарыңызға жауап береді.',
+        'Куратор 15 минут ішінде WhatsApp-қа жазып, уақытты келіседі және гайд жібереді.',
       successReset: 'Тағы бір өтінім жіберу',
       planNames: {
-        diagnostic: 'Тегін 1-де-1 SAT диагностикасы (0 ₸)',
-        per_lesson: 'Базалық тариф — 1 сабақ (10 000 ₸ / сабақ)',
-        course_1m: '1 айлық курс — 12 жеке сабақ (110 000 ₸)',
-        course_2m: '2 айлық курс — 24 жеке сабақ (210 000 ₸)',
-        standard_group: 'Мұрағаттық тариф (Standard)',
-        intensive_pro: 'Мұрағаттық тариф (Intensive)',
-        individual_vip: 'Мұрағаттық тариф (VIP 1-де-1)',
+        diagnostic: 'Тегін диагностика',
+        per_lesson: 'Сабақ сайын',
+        course_1m: '1 айлық курс',
+        course_2m: '2 айлық курс',
+        standard_group: 'Мұрағаттық тариф',
+        intensive_pro: 'Мұрағаттық тариф',
+        individual_vip: 'Мұрағаттық тариф',
       },
       planCardOptions: [
         {
           id: 'diagnostic',
-          title: '1-де-1 диагностика',
+          title: 'Диагностика',
           price: '0 ₸',
-          meta: '40 мин · Деңгейді тегін анықтау',
+          meta: '40 мин · тегін',
         },
         {
           id: 'course_2m',
           title: '2 айлық курс',
           price: '210 000 ₸',
-          meta: '24 сабақ · 30 000 ₸ үнем',
+          meta: '24 сабақ · 5 симуляция',
         },
         {
           id: 'course_1m',
           title: '1 айлық курс',
           price: '110 000 ₸',
-          meta: '12 сабақ · 10 000 ₸ үнем',
+          meta: '12 сабақ · 2 симуляция',
         },
         {
           id: 'per_lesson',
-          title: 'Сабақ сайын · Базалық',
+          title: 'Сабақ сайын',
           price: '10 000 ₸',
-          meta: '1 сабақ · Икемді кесте',
+          meta: '1 сабақ · 60 мин',
         },
       ],
     },
@@ -837,7 +837,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
           deliverables: [
             'Ресми Bluebook интерфейсіндегі қорытынды прокторинг симуляциялары',
             'Нақты емтиханда уақытты тиімді бөлудің жеке тактикасы',
-            'ҚР тест орталықтарына (Алматы, Астана, Шымкент) тіркелу және ЖОО-ға ұпай жіберу көмегі',
+            'ҚР тест орталықтарына тіркелу және ЖОО-ға ұпай жіберу көмегі',
           ],
         },
       ],
@@ -853,7 +853,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
       cases: [
         {
           name: 'Әлихан Нұрланов',
-          cityAndSchool: 'Алматы · РФМШ',
+          cityAndSchool: 'Онлайн · Казахстан',
           grade: '11 сынып',
           scoreBefore: 1290,
           scoreAfter: 1540,
@@ -866,7 +866,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
         },
         {
           name: 'Дәрия Қасымова',
-          cityAndSchool: 'Астана · НЗМ IB',
+          cityAndSchool: 'Онлайн · Казахстан',
           grade: '11 сынып',
           scoreBefore: 1360,
           scoreAfter: 1550,
@@ -879,7 +879,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
         },
         {
           name: 'Санжар Тілеуберген',
-          cityAndSchool: 'Шымкент · БИЛ',
+          cityAndSchool: 'Онлайн · Казахстан',
           grade: '10 сынып',
           scoreBefore: 1210,
           scoreAfter: 1470,
@@ -1123,7 +1123,7 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
         {
           question: 'Жеке сабақтар кестесі қалай құрылады және сабақты ауыстыруға бола ма?',
           answer:
-            'Сабақ кестесі Қазақстанның кез келген қаласындағы (Алматы, Астана, Шымкент, Қарағанды, Атырау және т.б.) оқушының мектебі мен қосымша үйірмелеріне сай жеке бекітіледі. Алдын ала ескерткен жағдайда жеке сабақ күймейді және басқа ыңғайлы күнге тегін ауыстырылады.',
+            'Сабақ кестесі оқушының мектебі мен қосымша үйірмелеріне сай жеке бекітіледі. Сабақтар тек онлайн өтеді, сондықтан Қазақстанның кез келген қаласынан оқуға болады. Алдын ала ескерткен жағдайда сабақ басқа ыңғайлы күнге тегін ауыстырылады.',
         },
         {
           question: 'Оқуды бастау үшін ағылшын тілінің қандай деңгейі қажет?',
@@ -1138,18 +1138,18 @@ export const TRANSLATIONS: Record<Locale, TranslationContent> = {
     footer: {
       tagline:
         'Қазақстанның 9–11 сынып оқушыларын NU, АҚШ, Еуропа және Азия гранттарына түсу үшін Digital SAT емтиханына 1-де-1 жеке дайындайтын мектеп.',
-      geography: 'Алматы · Астана · Шымкент · Бүкіл Қазақстан бойынша 1-де-1 онлайн',
+      geography: 'Бүкіл Қазақстан бойынша 1-де-1 онлайн',
       contactTitle: 'SATosphere кураторымен байланыс',
-      scheduleLine: 'Күн сайын 09:00–21:00 (Астана уақытымен, GMT+5)',
+      scheduleLine: 'Күн сайын 09:00–21:00 (GMT+5)',
       navTitle: 'Навигация',
       adminButton: 'Куратор кабинеті (CRM)',
       copyright:
         '© 2026 SATosphere. Барлық құқықтар қорғалған. SAT® — College Board тіркелген тауар белгісі.',
     },
     modal: {
-      titleDiagnostic: 'Digital SAT тегін 1-де-1 диагностикасына жазылу',
-      titleCourse: 'SATosphere жеке оқыту тарифін брондау',
-      selectedFormatPrefix: 'Таңдалған тариф:',
+      titleDiagnostic: 'Тегін диагностика',
+      titleCourse: 'Курсты брондау',
+      selectedFormatPrefix: 'Тариф:',
       closeAria: 'Жазылу терезесін жабу',
     },
     crm: {

@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowRight, Check, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Check, CheckCircle2, Gift } from 'lucide-react';
 import { motion } from 'motion/react';
 import { TranslationContent } from '../i18n/translations';
 import { createLeadRequest } from '../lib/api';
+import { track, trackAdsConversion } from '../lib/analytics';
 import {
   formatKzPhoneInput,
+  formatKzt,
   generateSafeLeadId,
   isValidKzPhone,
   LEAD_CONSTRAINTS,
   sanitizeLeadCreateInput,
   sanitizeText,
 } from '../lib/validation';
+import { PROMO } from '../config';
 import { GradeLevel, Locale, PaymentMode, PlanId, UtmParams } from '../types';
+
+const PLAN_BASE_PRICES: Record<string, number> = {
+  diagnostic: 0,
+  per_lesson: 10_000,
+  course_1m: 110_000,
+  course_2m: 210_000,
+};
 
 interface LeadFormProps {
   locale: Locale;
@@ -23,6 +33,7 @@ interface LeadFormProps {
   compact?: boolean;
   onPlanChange?: (plan: PlanId) => void;
   onSuccess?: () => void;
+  promo?: { active: boolean; code: string; note: string };
 }
 
 export const LeadForm: React.FC<LeadFormProps> = ({
@@ -35,6 +46,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({
   compact = false,
   onPlanChange,
   onSuccess,
+  promo,
 }) => {
   const [studentName, setStudentName] = useState('');
   const [phone, setPhone] = useState('+7 ');
@@ -87,12 +99,20 @@ export const LeadForm: React.FC<LeadFormProps> = ({
         paymentMode: defaultPaymentMode,
         locale,
         utm,
+        promoCode: promo?.active ? promo.code : '',
       });
 
       await createLeadRequest({
         id: leadId,
         ...cleanPayload,
       });
+
+      track('lead_success', {
+        plan: selectedPlan,
+        promo: promo?.active ? promo.code : 'none',
+        value: selectedPlan === 'diagnostic' ? 0 : 1,
+      });
+      if (selectedPlan === 'diagnostic') trackAdsConversion();
 
       setSubmitted(true);
       setStudentName('');
@@ -232,37 +252,57 @@ export const LeadForm: React.FC<LeadFormProps> = ({
                       : 'border-[#D3E3FC] bg-[#FFFFFF] hover:border-[#77A6F7] hover:bg-[#D3E3FC]/20'
                   }`}
                 >
-                  <div className="flex w-full min-w-0 items-start justify-between gap-2">
-                    <div className="flex min-w-0 items-center gap-2">
-                      <span
-                        aria-hidden="true"
-                        className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-colors ${
-                          isSelected
-                            ? 'border-[#00887A] bg-[#00887A] text-[#FFFFFF]'
-                            : 'border-[#77A6F7] bg-[#FFFFFF]'
-                        }`}
-                      >
-                        {isSelected && <Check className="h-2.5 w-2.5 stroke-[3]" />}
-                      </span>
-                      <span className="truncate font-display text-xs font-bold leading-snug text-brand-ink">
-                        {opt.title}
-                      </span>
-                    </div>
+                  <div className="flex w-full min-w-0 items-start gap-2">
                     <span
-                      className={`font-mono text-xs font-semibold tabular-nums whitespace-nowrap shrink-0 ${
-                        isSelected ? 'text-[#00887A]' : 'text-brand-ink'
+                      aria-hidden="true"
+                      className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-colors ${
+                        isSelected
+                          ? 'border-[#00887A] bg-[#00887A] text-[#FFFFFF]'
+                          : 'border-[#77A6F7] bg-[#FFFFFF]'
                       }`}
                     >
-                      {opt.price}
+                      {isSelected && <Check className="h-2.5 w-2.5 stroke-[3]" />}
                     </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-display text-xs font-bold leading-snug text-brand-ink">
+                        {opt.title}
+                      </p>
+                      <p
+                        className={`mt-0.5 font-mono text-xs font-semibold tabular-nums ${
+                          isSelected ? 'text-[#00887A]' : 'text-brand-ink'
+                        }`}
+                      >
+                        {(() => {
+                          const basePrice = PLAN_BASE_PRICES[opt.id] ?? 0;
+                          const hasPromo = Boolean(promo?.active && basePrice > 0);
+                          if (!hasPromo) return opt.price;
+                          const promoPrice = Math.round(
+                            (basePrice * (100 - PROMO.discountPercent)) / 100
+                          );
+                          return (
+                            <>
+                              {formatKzt(promoPrice)}
+                              <span className="ml-1 text-[11px] font-normal line-through text-brand-muted/80">
+                                {formatKzt(basePrice)}
+                              </span>
+                            </>
+                          );
+                        })()}
+                      </p>
+                      <p className="mt-1 text-[11px] leading-snug text-brand-muted">{opt.meta}</p>
+                    </div>
                   </div>
-                  <p className="mt-1.5 pl-6 text-[11px] leading-snug text-brand-muted">
-                    {opt.meta}
-                  </p>
                 </button>
               );
             })}
           </div>
+        </div>
+      )}
+
+      {promo?.active && (
+        <div className="flex items-start gap-2 rounded-lg border border-[#FFCCBC] bg-[#FFCCBC]/35 px-3 py-2">
+          <Gift className="mt-0.5 h-4 w-4 shrink-0 text-[#00887A]" aria-hidden="true" />
+          <p className="text-[11px] font-semibold leading-snug text-brand-ink">{promo.note}</p>
         </div>
       )}
 
